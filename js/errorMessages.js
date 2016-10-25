@@ -5,6 +5,15 @@
 // It takes two arguments: the form element ID and the message.
 function addErrorMessage(id, msg) {
    	'use strict';
+
+	//Get the element we want to add an
+	//error message element to:
+	var elem = U.$(id);
+
+	//Define a new span for the message
+	var newId = id + 'Error';
+	//example: firstNameError
+
     
 } // End of addErrorMessage() function.
 
