@@ -14,7 +14,27 @@ function addErrorMessage(id, msg) {
 	var newId = id + 'Error';
 	//example: firstNameError
 
-    
+	//Get the error element (ie. span) IF it exists
+	var span = U.$(newId);
+	if (span) {
+		//User provided bad info last time,
+		//so span already exists
+		//Just update it
+		span.firstChild.value = msg;
+	}
+	else {
+		//Span does NOT already exist, so add it
+		span = document.createElement("span");
+		span.id = newId;
+		span.className = "error";
+		span.appendChild (
+			document.createTextNode(msg)
+		);
+
+		//Place the span AFTER the input
+		elem.parentNode.appendChild(span);
+		elem.previousSibling.className = "error";
+	}
 } // End of addErrorMessage() function.
 
 // This function removes the error message.
@@ -22,4 +42,15 @@ function addErrorMessage(id, msg) {
 function removeErrorMessage(id) {
    	'use strict';
 
+	var span = U.$(id + "Error");
+	if (span) {
+		//Only when the span already exists
+
+		//Remove class definition from label
+		span.previousSibling.previousSibling
+			.className = null;
+
+		//Get rid of the span completely
+		span.parentNode.removeChild(span);
+	}
 } // End of removeErrorMessage() function.
