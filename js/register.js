@@ -32,15 +32,31 @@ function validateForm(e) {
         //Allows spaces, periods, and hyphens
         //Name must be 2-20 characters long
 
-        alert("Valid first name");
+        //alert("Valid first name");
+        removeErrorMessage('firstName');
     }
     else {
-        alert("Invalid first name");
+        //alert("Invalid first name");
+        addErrorMessage(
+            'firstName',
+            'Invalid/missing first name'
+        );
         error = true;
     }
 
 
 
+    //Prevent form from resubmitting
+    if (error) {
+        if (e.preventDefault) {
+            e.preventDefault();
+        }
+        else {
+            e.returnValue = false;
+        }
+    }
+
+    return false;
 
 } // End of validateForm() function.
 
