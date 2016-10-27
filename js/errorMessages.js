@@ -33,7 +33,19 @@ function addErrorMessage(id, msg) {
 
 		//Place the span AFTER the input
 		elem.parentNode.appendChild(span);
-		elem.previousSibling.className = "error";
+
+		//elem.previousSibling.className = "error";
+		//elem.parentNode.childNodes[1].className = 'error';
+
+
+		var nodes = elem.parentNode.childNodes;
+		for (var i = 0; i < nodes.length; i++)
+		{
+			if(nodes[i].innerHTML != "" &&
+				nodes[i].id == "") {
+				nodes[i].className = 'error';
+			}
+		}
 	}
 } // End of addErrorMessage() function.
 
@@ -47,8 +59,15 @@ function removeErrorMessage(id) {
 		//Only when the span already exists
 
 		//Remove class definition from label
-		span.previousSibling.previousSibling
-			.className = null;
+		//span.previousSibling.previousSibling
+		//	.className = null;
+		var nodes = span.parentNode.childNodes;
+		for (var i = 0; i < nodes.length; i++)
+		{
+			if(nodes[i].innerHTML != "" && nodes[i].id == "") {
+				nodes[i].className = null;
+			}
+		}
 
 		//Get rid of the span completely
 		span.parentNode.removeChild(span);
