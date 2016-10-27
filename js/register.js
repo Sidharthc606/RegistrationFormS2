@@ -46,6 +46,12 @@ function validateForm(e) {
 
 
 
+
+
+
+
+
+
     //Prevent form from resubmitting
     if (error) {
         if (e.preventDefault) {
