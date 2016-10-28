@@ -64,20 +64,21 @@ function validateForm(e) {
     }
 
     //Get form object references
-    var firstName = U.$("firstName");
-    var lastName;
-    var userName = U.$("userName");
-    var email;
-    var phone;
-    var city;
-    var state;
-    var zip;
-    var terms; //We'll add these later....
+    var firstName = U.$('firstName');
+    var lastName = U.$('lastName');
+    var userName = U.$('userName');
+    var email = U.$('email');
+    var phone = U.$('phone');
+    var city = U.$('city');
+    var state = U.$('state');
+    var zip = U.$('zip')
+    var terms = U.$('terms');
+
 
     //Flag variable
     var error = false;
 
-    //Validate the first name:
+    //Validate the first name using a regular expression
     if (/^[A-Z \.\-']{2,20}$/i.test(firstName.value)) {
         //Everything between / and / is the expression
         //Allows any letter A-Z (case insensitive)
@@ -96,7 +97,9 @@ function validateForm(e) {
         error = true;
     }
 
+    //Validate the last name using a regular expression
 
+    //Validate the username using a validation function
     if (validateUsername(userName.value)) {
         removeErrorMessage('userName');
     }
@@ -108,10 +111,10 @@ function validateForm(e) {
         error = true;
     }
 
-
-
-
-
+    //Validate the email using a regular expression
+    //Validate the phone using a regular expression
+    //Validate the city using a regular expression
+    //Validate the zip using a regular expression
 
     //Prevent form from resubmitting
     if (error) {
