@@ -1,6 +1,57 @@
 // Script 10.7- register.js
 // This script validates a form.
 
+function validateUsername(username) {
+    //Returns true if the given username
+    //matches the following criteria:
+    //1. Is 8 or more characters long
+    //2. First character is A-Z or a-z
+    //3. Contains at least one numeral
+    //Returns false otherwise
+
+    var char1;
+    var hasNumber;
+
+    //Check username length:
+    if (username.length < 8) {
+        return false;
+    }
+
+    //Check the first digit
+    char1 = username.substr(0, 1).toUpperCase();
+    if (!(char1 >= "A" && char1 <= "Z")) {
+        return false;
+    }
+
+    //Check if there is at least one digit
+    hasNumber = /\d/;
+    if (!(hasNumber.test(username))) {
+        return false;
+    }
+
+    //Alternate method:
+    /*var anyDigits;
+    for (var i = 1; i < username.length; i++)
+    {
+        char1 = username.substr(i, 1);
+        if (char1 >= "0" && char1 <= "9")
+        {
+            anyDigits = true;
+            break;  //found a digit, exit loop
+        } //end if
+    } //end for
+
+    if (!(anyDigits)) {
+        return false;
+    }*/
+
+    //All criteria has been met:
+    return true;
+}
+
+
+
+
 // Function called when the form is submitted.
 // Function validates the form data.
 
@@ -15,6 +66,7 @@ function validateForm(e) {
     //Get form object references
     var firstName = U.$("firstName");
     var lastName;
+    var userName = U.$("userName");
     var email;
     var phone;
     var city;
@@ -45,7 +97,16 @@ function validateForm(e) {
     }
 
 
-
+    if (validateUsername(userName.value)) {
+        removeErrorMessage('userName');
+    }
+    else {
+        addErrorMessage(
+            'userName',
+            'username does not meet criteria'
+        );
+        error = true;
+    }
 
 
 
