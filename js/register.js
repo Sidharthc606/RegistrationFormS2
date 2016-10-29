@@ -1,7 +1,7 @@
 // Script 10.7- register.js
 // This script validates a form.
 
-function validateUsername(username) {
+function validateUsername(username, message) {
     //Returns true if the given username
     //matches the following criteria:
     //1. Is 8 or more characters long
@@ -14,18 +14,22 @@ function validateUsername(username) {
 
     //Check username length:
     if (username.length < 8) {
+        message.valueOf = "Username must be >= 8 characters";
         return false;
     }
 
     //Check the first digit
     char1 = username.substr(0, 1).toUpperCase();
     if (!(char1 >= "A" && char1 <= "Z")) {
+        message.valueOf  = "Username must begin with A-Z or a-z";
         return false;
     }
 
     //Check if there is at least one digit
     hasNumber = /\d/;
     if (!(hasNumber.test(username))) {
+        message.valueOf  = "Username must contain at " +
+            "least one 0-9";
         return false;
     }
 
@@ -71,7 +75,7 @@ function validateForm(e) {
     var phone = U.$('phone');
     var city = U.$('city');
     var state = U.$('state');
-    var zip = U.$('zip')
+    var zip = U.$('zip');
     var terms = U.$('terms');
 
 
@@ -100,14 +104,17 @@ function validateForm(e) {
     //Validate the last name using a regular expression
 
     //Validate the username using a validation function
-    if (validateUsername(userName.value)) {
+    var msg = "initial message";
+    //In Javascript, objects are ALWAYS
+    //passed by reference
+    //Turn msg into an object instead:
+    msg = Object(msg);
+
+    if (validateUsername(userName.value, msg)) {
         removeErrorMessage('userName');
     }
     else {
-        addErrorMessage(
-            'userName',
-            'username does not meet criteria'
-        );
+        addErrorMessage('userName', msg.valueOf);
         error = true;
     }
 
