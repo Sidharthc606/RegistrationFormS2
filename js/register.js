@@ -101,27 +101,65 @@ function validateForm(e) {
         error = true;
     }
 
-    //Validate the last name using a regular expression
+    //Validate the last name using a regular expression:
+    if (/^[A-Z \.\-']{2,20}$/i.test(lastName.value)) {
+        removeErrorMessage('lastName');
+    }
+    else {
+        addErrorMessage('lastName', 'Invalid last name');
+        error = true;
+    }
 
-    //Validate the username using a validation function
-    var msg = "initial message";
+    //Validate the username using a validation function:
     //In Javascript, objects are ALWAYS
     //passed by reference
     //Turn msg into an object instead:
-    msg = Object(msg);
-
-    if (validateUsername(userName.value, msg)) {
+    var msg = Object("");
+    if(validateUsername(userName.value, msg)) {
+        //The username meets requirements
         removeErrorMessage('userName');
     }
     else {
+        //The username is not valid
         addErrorMessage('userName', msg.valueOf);
         error = true;
     }
 
-    //Validate the email using a regular expression
-    //Validate the phone using a regular expression
-    //Validate the city using a regular expression
-    //Validate the zip using a regular expression
+    //Validate the email using a regular expression:
+    if (/^[\w.-]+@[\w.-]+\.[A-Za-z]{2,6}$/i.test(email.value)) {
+        removeErrorMessage('email');
+    }
+    else {
+        addErrorMessage('email', 'Invalid email');
+        error = true;
+    }
+
+    //Validate the phone using a regular expression:
+    if (/^\d{3}[ \-\.]?\d{3}[ \-\.]?\d{4}$/i.test(phone.value)) {
+        removeErrorMessage('phone');
+    }
+    else {
+        addErrorMessage('phone', 'Invalid phone');
+        error = true;
+    }
+
+    //Validate the city using a regular expression:
+    if (/^[A-Z \.\-']{2,20}$/i.test(city.value)) {
+        removeErrorMessage('city');
+    }
+    else {
+        addErrorMessage('city', 'Invalid city');
+        error = true;
+    }
+
+    //Validate the zip using a regular expression:
+    if (/^^\d{5}(-\d{4})?$$/i.test(zip.value)) {
+        removeErrorMessage('zip');
+    }
+    else {
+        addErrorMessage('lastName', 'Invalid zip');
+        error = true;
+    }
 
     //Prevent form from resubmitting
     if (error) {
