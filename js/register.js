@@ -1,178 +1,135 @@
 // Script 10.7- register.js
 // This script validates a form.
 
-function validateUsername(username, message) {
-    //Returns true if the given username
-    //matches the following criteria:
-    //1. Is 8 or more characters long
-    //2. First character is A-Z or a-z
-    //3. Contains at least one numeral
-    //Returns false otherwise
-
-    var char1;
-    var hasNumber;
-
-    //Check username length:
-    if (username.length < 8) {
-        message.valueOf = "Username must be >= 8 characters";
-        return false;
-    }
-
-    //Check the first digit
-    char1 = username.substr(0, 1).toUpperCase();
-    if (!(char1 >= "A" && char1 <= "Z")) {
-        message.valueOf  = "Username must begin with A-Z or a-z";
-        return false;
-    }
-
-    //Check if there is at least one digit
-    hasNumber = /\d/;
-    if (!(hasNumber.test(username))) {
-        message.valueOf  = "Username must contain at " +
-            "least one 0-9";
-        return false;
-    }
-
-    //Alternate method:
-    /*var anyDigits;
-    for (var i = 1; i < username.length; i++)
-    {
-        char1 = username.substr(i, 1);
-        if (char1 >= "0" && char1 <= "9")
-        {
-            anyDigits = true;
-            break;  //found a digit, exit loop
-        } //end if
-    } //end for
-
-    if (!(anyDigits)) {
-        return false;
-    }*/
-
-    //All criteria has been met:
-    return true;
-}
-
-
-
-
 // Function called when the form is submitted.
 // Function validates the form data.
+function validateUsername(username) {
+   // Declare variables and constants
+   var char1;                     // one character extracted from username
+   var anyDigits = false;     // variable to signify presence of digits
+   var index  ;                    // loop variable for extracting characters
+
+   // Check for length of username
+   if (username.length < 8) {
+      alert("ERROR...your username must be at least 8 characters long.");
+      username = prompt("Please enter your new username:",ES);
+   }
+
+   // Check that first character is a letter
+   // Substring function has two arguments: starting position and number of characters
+   // Character comparison can determine whether a character is a letter
+   char1 = username.substr(0, 1);
+   if (!((char1 >= "a" && char1 <= "z") || (char1 >= "A" && char1 <="Z"))) {
+      alert("ERROR...the first character of your username must be a letter.");
+      username = prompt("Please enter your new username:",ES);
+      char1 = username.substr(0, 1);
+   }
+
+   // Check that there's at least one digit in the username
+   // Substring function has two arguments: starting position and number of characters
+   // Character comparison can determine whether a character is a digit
+
+	//Alternative:
+	//var hasNumber = /\d/;
+	//hasNumber.test(username);
+  
+   while (!(anyDigits)) {
+      // Check each character, set anyDigits to true if a digit
+      for (index = 1; index < username.length; index++) {
+         char1 = username.substr(index, 1);
+         if (char1 >= "0" && char1 <= "9") {
+            anyDigits = true;
+         }
+      }
+
+      // If anyDigits is still false, no digits were present
+      if (!(anyDigits)) {
+         alert("ERROR...your username must include at least 1 digit.");
+      username = prompt("Please enter your new username:",ES);
+      }
+   }
+}
 
 function validateForm(e) {
     'use strict';
 
-    //Handles window-generated events (i.e. non-user)
-    if (typeof e == 'undefined') {
-        e = window.event;
-    }
+    // Get the event object:
+	if (typeof e == 'undefined') e = window.event;
 
-    //Get form object references
-    var firstName = U.$('firstName');
-    var lastName = U.$('lastName');
-    var userName = U.$('userName');
-    var email = U.$('email');
-    var phone = U.$('phone');
-    var city = U.$('city');
-    var state = U.$('state');
-    var zip = U.$('zip');
-    var terms = U.$('terms');
+    // Get form references:
+	var firstName = U.$('firstName');
+	var lastName = U.$('lastName');
+	var email = U.$('email');
+	var phone = U.$('phone');
+	var city = U.$('city');
+	var state = U.$('state');
+	var zip = U.$('zip');
+	var terms = U.$('terms');
 
+	// Flag variable:
+	var error = false;
 
-    //Flag variable
-    var error = false;
+	// Validate the first name:
+	if (/^[A-Z \.\-']{2,20}$/i.test(firstName.value)) {
+		//Everything between / and / is the expression
+		//Allows any letter A-Z, case insensitive
+		//Allows space, period, hyphen
+		//Must be 2-20 characters long
+		removeErrorMessage('firstName');
+	} else {
+		addErrorMessage('firstName', 'Please enter your first name.');
+		error = true;
+	}
+	
+	// Validate the email address:
+	if (/^[\w.-]+@[\w.-]+\.[A-Za-z]{2,6}$/.test(email.value)) {
+		removeErrorMessage('email');
+	} else {
+		addErrorMessage('email', 'Please enter your email address.');
+		error = true;
+	}
+	
+	//Validate the user name:
+	validateUsername(userName.value);
+	
+	// Validate the phone number:
+	if (/\d{3}[ \-\.]?\d{3}[ \-\.]?\d{4}/.test(phone.value)) {
+		removeErrorMessage('phone');
+	} else {
+		addErrorMessage('phone', 'Please enter your phone number.');
+		error = true;
+	}
+	
+	// Validate the state:
+	alert(state.selectedIndex);
+	if (state.selectedIndex != 0) {
+		removeErrorMessage('state');
+	} else {
+		addErrorMessage('state', 'Please select your state.');
+		error = true;
+	}
+	
+	// Validate the zip code:
+	if (/^\d{5}(-\d{4})?$/.test(zip.value)) {
+		removeErrorMessage('zip');
+	} else {
+			addErrorMessage('zip', 'Please enter your zip code.');
+		error = true;
+	}
 
-    //Validate the first name using a regular expression
-    if (/^[A-Z \.\-']{2,20}$/i.test(firstName.value)) {
-        //Everything between / and / is the expression
-        //Allows any letter A-Z (case insensitive)
-        //Allows spaces, periods, and hyphens
-        //Name must be 2-20 characters long
+    // If an error occurred, prevent the default behavior:
+	if (error) {
 
-        //alert("Valid first name");
-        removeErrorMessage('firstName');
-    }
-    else {
-        //alert("Invalid first name");
-        addErrorMessage(
-            'firstName',
-            'Invalid/missing first name'
-        );
-        error = true;
-    }
-
-    //Validate the last name using a regular expression:
-    if (/^[A-Z \.\-']{2,20}$/i.test(lastName.value)) {
-        removeErrorMessage('lastName');
-    }
-    else {
-        addErrorMessage('lastName', 'Invalid last name');
-        error = true;
-    }
-
-    //Validate the username using a validation function:
-    //In Javascript, objects are ALWAYS
-    //passed by reference
-    //Turn msg into an object instead:
-    var msg = Object("");
-    if(validateUsername(userName.value, msg)) {
-        //The username meets requirements
-        removeErrorMessage('userName');
-    }
-    else {
-        //The username is not valid
-        addErrorMessage('userName', msg.valueOf);
-        error = true;
-    }
-
-    //Validate the email using a regular expression:
-    if (/^[\w.-]+@[\w.-]+\.[A-Za-z]{2,6}$/i.test(email.value)) {
-        removeErrorMessage('email');
-    }
-    else {
-        addErrorMessage('email', 'Invalid email');
-        error = true;
-    }
-
-    //Validate the phone using a regular expression:
-    if (/^\d{3}[ \-\.]?\d{3}[ \-\.]?\d{4}$/i.test(phone.value)) {
-        removeErrorMessage('phone');
-    }
-    else {
-        addErrorMessage('phone', 'Invalid phone');
-        error = true;
-    }
-
-    //Validate the city using a regular expression:
-    if (/^[A-Z \.\-']{2,20}$/i.test(city.value)) {
-        removeErrorMessage('city');
-    }
-    else {
-        addErrorMessage('city', 'Invalid city');
-        error = true;
-    }
-
-    //Validate the zip using a regular expression:
-    if (/^^\d{5}(-\d{4})?$$/i.test(zip.value)) {
-        removeErrorMessage('zip');
-    }
-    else {
-        addErrorMessage('lastName', 'Invalid zip');
-        error = true;
-    }
-
-    //Prevent form from resubmitting
-    if (error) {
-        if (e.preventDefault) {
-            e.preventDefault();
-        }
-        else {
-            e.returnValue = false;
-        }
-    }
-
-    return false;
-
+		// Prevent the form's submission:
+	    if (e.preventDefault) {
+	        e.preventDefault();
+	    } else {
+	        e.returnValue = false;
+	    }
+	    return false;
+    
+	}
+    
 } // End of validateForm() function.
 
 // Function called when the terms checkbox changes.
@@ -180,19 +137,32 @@ function validateForm(e) {
 function toggleSubmit() {
 	'use strict';
     
+	// Get a reference to the submit button:
+	var submit = U.$('submit');
+	
+	// Toggle its disabled property:
+	if (U.$('terms').checked) {
+		submit.disabled = false;
+	} else {
+		submit.disabled = true;
+	}
+	
 } // End of toggleSubmit() function.
 
 // Establish functionality on window load:
 window.onload = function() {
     'use strict';
 
-    U.addEvent(
-        //Takes 3 arguments:
-        //1. What object is calling the event?
-        //2. What is the event?
-        //3. What is the handler (function)?
-        U.$('theForm'),
-        'submit',
-        validateForm);
+	// The validateForm() function handles the form:
+    U.addEvent(U.$('theForm'), 'submit', validateForm);
 
+	// Disable the submit button to start:
+	U.$('submit').disabled = true;
+
+	// Watch for changes on the terms checkbox:
+    U.addEvent(U.$('terms'), 'change', toggleSubmit);
+
+	// Enbable tooltips on the phone number:
+	U.enableTooltips('phone');
+    
 };
