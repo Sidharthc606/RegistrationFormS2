@@ -10,40 +10,160 @@
 </head>
 <body>
     <!-- Script 10.6 - register.html -->
-    <form action="#" method="post" id="theForm">
+    <form action="congratulations.html" method="post" id="theForm">
         <fieldset><legend>Register</legend>
-			<p>All fields are required.</p>
+            <p>All fields are required.</p>
 
-			<div class="two">
-				<label for="firstName">First Name</label>
-				<input type="text" name="firstName" id="firstName" required>
-			</div>
+            <div class="two">
+                <label for="firstName">First Name</label>
+                <input type="text" name="firstName" id="firstName" required>
+            </div>
 
-			<div class="two">
-				<label for="lastName">Last Name</label>
-				<input type="text" name="lastName" id="lastName" required>
-			</div>
+            <div class="two">
+                <label for="lastName">Last Name</label>
+                <input type="text" name="lastName" id="lastName" required>
+            </div>
 
-			<div class="two"><label for="userName">User Name</label><input type="text" name="userName" id="userName" required></div>
-			<div class="two"><label for="email">Email Address</label><input type="email" name="email" id="email" required></div>
-			<div class="two"><label for="phone">Phone Number<span class="tooltip">In the format XXX XXX XXXX or XXX-XXX-XXXX or XXXXXXXXXX.</span></label><input type="text" name="phone" id="phone" required></div>
-			<div class="two"><label for="city">City</label><input type="text" name="city" id="city" required></div>
-			<div class="two"><label for="state">State</label><select name="state" id="state">
-				<option value="">Select a State</option> 
-				<option value="AL">Alabama</option> 
-				<option value="AK">Alaska</option> 
-				<option value="AZ">Arizona</option> 
-				<option value="AR">Arkansas</option> 
-				<option value="CA">California</option> 
-				<option value="CO">Colorado</option>           
-			</select></div>    
-			<div class="two"><label for="zip">Zip Code</label><input type="text" name="zip" id="zip" required></div>
-			<div class="one"><input type="checkbox" name="terms" id="terms" required> I agree to the terms, whatever they are.</div>
-			<div class="one"><input type="submit" value="Register" id="submit"></div>
+            <div class="two">
+                <label for="userName">User Name</label>
+                <input type="text" name="userName" id="userName" required>
+            </div>
+
+            <div class="two">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+
+            <div class="two">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" name="confirmPassword" id="confirmPassword" required>
+            </div>
+
+            <div class="one">
+                <input type="button" value="Generate Password" id="generatePasswordBtn">
+            </div>
+
+            <span id="generatedPassword"></span>
+
+            <div class="two">
+                <label for="email">Email Address</label>
+                <input type="email" name="email" id="email" required>
+            </div>
+
+            <div class="two">
+                <label for="phone">Phone Number<span class="tooltip">In the format XXX XXX XXXX or XXX-XXX-XXXX or XXXXXXXXXX.</span></label>
+                <input type="text" name="phone" id="phone" required>
+            </div>
+
+            <div class="two">
+                <label for="city">City</label>
+                <input type="text" name="city" id="city" required>
+            </div>
+
+            <div class="two">
+                <label for="state">State</label>
+                <select name="state" id="state">
+                    <option value="">Select a State</option> 
+                    <option value="AL">Alabama</option> 
+                    <option value="AK">Alaska</option> 
+                    <option value="AZ">Arizona</option> 
+                    <option value="AR">Arkansas</option> 
+                    <option value="CA">California</option> 
+                    <option value="CO">Colorado</option>           
+                </select>
+            </div>    
+
+            <div class="two">
+                <label for="zip">Zip Code</label>
+                <input type="text" name="zip" id="zip" required>
+            </div>
+
+            <div class="one">
+                <input type="checkbox" name="terms" id="terms" required> I agree to the terms, whatever they are.
+            </div>
+
+            <div class="one">
+                <input type="submit" value="Register" id="submit">
+            </div>
         </fieldset>
     </form>
+    
+    <script>
+        // Function to generate a random password
+        function generatePassword() {
+            // Define the characters to be used in the password
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%+';
+            let password = '';
+            
+            // Generate a password with 12 characters
+            for (let i = 0; i < 12; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                password += characters.charAt(randomIndex);
+            }
+            
+            // Set the generated password to the password input field
+            document.getElementById('password').value = password;
+            document.getElementById('confirmPassword').value = password;
+            
+            // Show the generated password to the user
+            document.getElementById('generatedPassword').textContent = 'Generated Password: ' + password;
+        }
+        
+        // Event listener for the "Generate Password" button
+        document.getElementById('generatePasswordBtn').addEventListener('click', generatePassword);
+    </script>
     <script src="js/utilities.js"></script>
     <script src="js/errorMessages.js"></script>
     <script src="js/register.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get references to form elements
+            const form = document.getElementById('theForm');
+            const firstNameInput = document.getElementById('firstName');
+            const lastNameInput = document.getElementById('firstName');
+            const userNameInput = document.getElementById('userName');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            const cityInput = document.getElementById('city');
+            const stateInput = document.getElementById('state');
+            const zipInput = document.getElementById('zip');
+            const termsCheckbox = document.getElementById('terms');
+
+            // Function to validate form inputs
+            function validateForm() {
+                // Perform your validation logic here
+                // For simplicity, we'll just check if all required fields are filled
+                if (
+                    firstNameInput.value &&
+                    lastNameInput.value &&
+                    userNameInput.value &&
+                    emailInput.value &&
+                    phoneInput.value &&
+                    cityInput.value &&
+                    stateInput.value &&
+                    zipInput.value &&
+                    termsCheckbox.checked
+                ) {
+                    return true;
+                } else {
+                    alert('Please fill out all fields correctly.');
+                    return false;
+                }
+            }
+
+            // Function to handle form submission
+            function handleSubmit(event) {
+                event.preventDefault(); // Prevent default form submission
+                if (validateForm()) {
+                    // If form is valid, redirect to Congratulations page
+                    window.location.href = 'congratulations.html'; // Change this to the path of your Congratulations page
+                }
+            }
+
+            // Add event listener for form submission
+            form.addEventListener('submit', handleSubmit);
+        });
+    </script>
 </body>
 </html>
